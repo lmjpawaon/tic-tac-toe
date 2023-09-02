@@ -1,21 +1,24 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const tiles = document.querySelectorAll(".tile");
-    let currentPlayer = "X";
-    let gameBoard = ["", "", "", "", "", "", "", "", ""];
     const winCombos = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],
         [0, 3, 6], [1, 4, 7], [2, 5, 8],
         [0, 4, 8], [2, 4, 6]
     ];
 
+    let currentPlayer = "X";
+    let gameBoard = ["", "", "", "", "", "", "", "", ""];
+    
+    const xStreakElement = document.getElementById('x-streak');
+    const oStreakElement = document.getElementById('o-streak');
+    const drawStreakElement = document.getElementById('draw-streak');
+
+    // Initialize streak counts from localStorage and update the display
     let xStreak = parseInt(localStorage.getItem('xStreak')) || 0;
     let oStreak = parseInt(localStorage.getItem('oStreak')) || 0;
     let drawStreak = parseInt(localStorage.getItem('drawStreak')) || 0;
 
-    document.getElementById('x-streak').textContent = `X Wins: ${xStreak}`;
-    document.getElementById('o-streak').textContent = `O Wins: ${oStreak}`;
-    document.getElementById('draw-streak').textContent = `Draws: ${drawStreak}`;
+    updateStreaksDisplay();
 
     // Function to update and display streak counts
     function updateStreaks(winner) {
@@ -30,10 +33,14 @@ document.addEventListener("DOMContentLoaded", function () {
             localStorage.setItem('drawStreak', drawStreak);
         }
 
-        // Update the streak display in the HTML
-        document.getElementById('x-streak').textContent = `X Wins: ${xStreak}`;
-        document.getElementById('o-streak').textContent = `O Wins: ${oStreak}`;
-        document.getElementById('draw-streak').textContent = `Draws: ${drawStreak}`;
+        updateStreaksDisplay();
+    }
+
+    // Function to update the display of streak counts
+    function updateStreaksDisplay() {
+        xStreakElement.textContent = `X Wins: ${xStreak}`;
+        oStreakElement.textContent = `O Wins: ${oStreak}`;
+        drawStreakElement.textContent = `Draws: ${drawStreak}`;
     }
 
     // Add click event listeners to each tile
@@ -65,26 +72,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateStatus() {
         const status = document.querySelector(".header h2");
-        if (checkWinner()) {
-            const winningPattern = winCombos[winCombos.findIndex(combo => {
-                return combo.every(index => gameBoard[index] === checkWinner());
-            })];
+        const winner = checkWinner();
+        
+        if (winner) {
+            const winningPattern = winCombos.find(combo => {
+                return combo.every(index => gameBoard[index] === winner);
+            });
             if (winningPattern) {
                 winningPattern.forEach(index => {
-                    tiles[index].classList.add("winner"); //Add winner class to be used to highlight box to red
+                    tiles[index].classList.add("winner");
                     tiles[index].style.animation = "flip 0.5s ease";
-                }); 
+                });
             }
-            setTimeout(() =>{
-                window.alert(`${checkWinner()} wins!`);
-            }, 500)
-            updateStreaks(checkWinner())
-            
-        } else if (!gameBoard.includes("") && !checkWinner()) {
-            setTimeout(() =>{
+            setTimeout(() => {
+                window.alert(`${winner} wins!`);
+            }, 500);
+            updateStreaks(winner);
+        } else if (!gameBoard.includes("") && !winner) {
+            setTimeout(() => {
                 window.alert("It's a draw!");
-            }, 500) //Timeout so that the boxes will be highlighted first before the alert shows up
-            updateStreaks("draw")
+            }, 500);
+            updateStreaks("draw");
         } else {
             status.textContent = `Current Player: ${currentPlayer}`;
         }
@@ -94,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (const combo of winCombos) {
             const [a, b, c] = combo;
             if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-                return gameBoard[a]; //Returns either X or O
+                return gameBoard[a]; // Returns either X or O
             }
         }
         return null;
