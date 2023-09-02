@@ -13,8 +13,14 @@
     <div class="container">
         <header class="header">
             <h1>Tic-Tac-Toe</h1>
-            <button id="restart-button">Restart</button> <!-- Add a restart button -->
+            <h2>Current Player: X</h2>
         </header>
+        <div class="streaks">
+            <div id="x-streak">X Wins: 0</div>
+            <div id="draw-streak">Draws: 0</div>
+            <div id="o-streak">O Wins: 0</div>
+        </div>
+        
         <div class="grid">
             <div class="tile"></div>
             <div class="tile"></div>
@@ -26,7 +32,7 @@
             <div class="tile"></div>
             <div class="tile"></div>
         </div>
-        
+        <button id="restart">Restart</button> <!-- Add a restart button -->
     </div>
     <script src="scripts.js"></script>
 </body>

@@ -25,7 +25,7 @@ body {
     grid-template-columns: repeat(3, 100px);
 }
 
-#restart-button {
+#restart {
     background-color: #4caf50;
     color: white;
     border: none;
@@ -51,10 +51,48 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-.odd {
-    background-color: #c2142e;
+.winner {
+    background-color: red;
 }
 
-.even {
-    background-color: #f6ebac;
+.tile:hover{
+    background-color: #4caf50;
+    opacity:50%;
 }
+
+/* Style the streaks container */
+.streaks {
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Style X's streak box */
+#x-streak {
+    background-color: #c2142e; /* X's color */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Style the Draw streak box */
+#draw-streak {
+    background-color: #4caf50; /* Draw's color */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Style O's streak box */
+#o-streak {
+    background-color: #f6ebac; /* O's color */
+    color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
