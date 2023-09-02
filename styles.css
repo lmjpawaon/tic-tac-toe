@@ -53,12 +53,13 @@ body {
 
 .winner {
     background-color: red;
+    transition: background-color 0.5s ease;
 }
 
-.tile:hover{
+/* .tile:hover{
     background-color: #4caf50;
     opacity:50%;
-}
+} */
 
 /* Style the streaks container */
 .streaks {
@@ -96,3 +97,11 @@ body {
     text-align: center;
 }
 
+@keyframes flip {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(180deg);
+    }
+}
