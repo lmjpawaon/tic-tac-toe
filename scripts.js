@@ -8,6 +8,29 @@ document.addEventListener("DOMContentLoaded", function () {
         [0, 4, 8], [2, 4, 6]
     ];
 
+    let xStreak = parseInt(localStorage.getItem('xStreak')) || 0;
+    let oStreak = parseInt(localStorage.getItem('oStreak')) || 0;
+    let drawStreak = parseInt(localStorage.getItem('drawStreak')) || 0;
+
+    // Function to update and display streak counts
+    function updateStreaks(winner) {
+        if (winner === "X") {
+            xStreak++;
+            localStorage.setItem('xStreak', xStreak);
+        } else if (winner === "O") {
+            oStreak++;
+            localStorage.setItem('oStreak', oStreak);
+        } else if (winner === "draw") {
+            drawStreak++;
+            localStorage.setItem('drawStreak', drawStreak);
+        }
+
+        // Update the streak display in the HTML
+        document.getElementById('x-streak').textContent = `X Wins: ${xStreak}`;
+        document.getElementById('o-streak').textContent = `O Wins: ${oStreak}`;
+        document.getElementById('draw-streak').textContent = `Draws: ${drawStreak}`;
+    }
+
     // Add click event listeners to each tile
     tiles.forEach((tile, index) => {
         tile.addEventListener("click", () => {
@@ -22,11 +45,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // Add an event listener for the restart button
-    const restartButton = document.getElementById("restart-button");
+    const restartButton = document.getElementById("restart");
     restartButton.addEventListener("click", () => {
         // Clear the tiles and reset the gameBoard
         tiles.forEach(tile => {
             tile.textContent = "";
+            tile.classList.remove("winner") //Remove added class winner from updateStatus()
         });
         gameBoard = ["", "", "", "", "", "", "", "", ""];
         currentPlayer = "X";
@@ -34,11 +58,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function updateStatus() {
-        const status = document.querySelector(".header h1");
+        const status = document.querySelector(".header h2");
         if (checkWinner()) {
-            status.textContent = `${checkWinner()} wins!`;
+            const winningPattern = winCombos[winCombos.findIndex(combo => {
+                return combo.every(index => gameBoard[index] === checkWinner());
+            })];
+            if (winningPattern) {
+                winningPattern.forEach(index => {
+                    tiles[index].classList.add("winner"); //Add winner class to be used to highlight box to red
+                }); 
+            }
+            setTimeout(() =>{
+                window.alert(`${checkWinner()} wins!`);
+            }, 100)
+            updateStreaks(checkWinner())
+            
         } else if (!gameBoard.includes("") && !checkWinner()) {
-            status.textContent = "It's a draw!";
+            setTimeout(() =>{
+                window.alert("It's a draw!");
+            }, 100) //Timeout so that the boxes will be highlighted first before the alert shows up
+            updateStreaks("draw")
         } else {
             status.textContent = `Current Player: ${currentPlayer}`;
         }
@@ -48,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
         for (const combo of winCombos) {
             const [a, b, c] = combo;
             if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-                return gameBoard[a];
+                return gameBoard[a]; //Returns either X or O
             }
         }
         return null;
