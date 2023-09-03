@@ -64,6 +64,7 @@ body {
 
 .tile:hover{
     background-color: var(--naplesYellow);
+    opacity: 50%;
     
 }
 
