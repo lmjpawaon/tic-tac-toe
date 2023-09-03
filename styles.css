@@ -1,10 +1,21 @@
+:root{
+    --russianViolet: #240B36;
+    --madder: #A4031F;
+    --persianOrange: #DB9065;
+    --sandyBrown: #F2A359;
+    --naplesYellow: #F2DC5D;
+    --bgGrey: #EFEFEF;
+
+}
+
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
+    background-color: var(--bgGrey);
 }
 
 .container {
@@ -14,7 +25,7 @@ body {
 .header {
     text-align: center;
     padding: 20px;
-    background-color: #333;
+    background-color: var(--russianViolet);
     color: #fff;
     margin-bottom: 20px;
     font-family: 'Inter', sans-serif;
@@ -26,7 +37,7 @@ body {
 }
 
 #restart {
-    background-color: #4caf50;
+    background-color: var(--russianViolet);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -41,7 +52,7 @@ body {
 .tile {
     width: 100px;
     height: 100px;
-    border: 1px solid #aaa;
+    border: 2px solid var(--russianViolet);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,15 +62,17 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+.tile:hover{
+    background-color: var(--naplesYellow);
+    
+}
+
 .winner {
-    background-color: red;
+    background-color: var(--madder);
+    color: var(--naplesYellow);
     transition: background-color 0.5s ease;
 }
 
-/* .tile:hover{
-    background-color: #4caf50;
-    opacity:50%;
-} */
 
 /* Style the streaks container */
 .streaks {
@@ -72,8 +85,8 @@ body {
 
 /* Style X's streak box */
 #x-streak {
-    background-color: #c2142e; /* X's color */
-    color: white;
+    background-color: var(--persianOrange);
+    color: #333;
     padding: 10px;
     border-radius: 5px;
     text-align: center;
@@ -81,7 +94,7 @@ body {
 
 /* Style the Draw streak box */
 #draw-streak {
-    background-color: #4caf50; /* Draw's color */
+    background-color: var(--russianViolet);
     color: white;
     padding: 10px;
     border-radius: 5px;
@@ -90,13 +103,14 @@ body {
 
 /* Style O's streak box */
 #o-streak {
-    background-color: #f6ebac; /* O's color */
+    background-color: var(--sandyBrown);
     color: #333;
     padding: 10px;
     border-radius: 5px;
     text-align: center;
 }
 
+/*Flip Animation for Winning Tiles*/
 @keyframes flip {
     0% {
         transform: rotateY(0deg);
