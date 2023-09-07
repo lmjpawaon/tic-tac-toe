@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function updateStatus() {
-        const status = document.querySelector(".header h2");
+        const status = document.querySelector(".header h3");
         const winner = checkWinner();
         
         if (winner) {
